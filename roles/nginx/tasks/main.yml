@@ -1,0 +1,31 @@
+- name: Install NGINX
+  apt:
+    name: nginx
+    state: present
+
+- name: Ensure NGINX is started
+  service:
+    name: nginx
+    state: started
+    enabled: true
+
+- name: Configure NGINX reverse proxy
+  template:
+    src: yii2-nginx.conf.j2
+    dest: /etc/nginx/sites-available/yii2
+  notify:
+    - Reload nginx
+
+- name: Enable NGINX site
+  file:
+    src: /etc/nginx/sites-available/yii2
+    dest: /etc/nginx/sites-enabled/yii2
+    state: link
+    force: yes
+
+- name: Remove default NGINX config
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+
+

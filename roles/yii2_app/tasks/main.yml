@@ -1,0 +1,48 @@
+- name: Clone Yii2 App Repo
+  git:
+    repo: https://github.com/Vinayvasantham/DevOps-Assessment.git
+    dest: /home/ubuntu/yii2-app
+    version: main
+    force: yes
+
+- name: Check if Dockerfile exists
+  stat:
+    path: /home/ubuntu/yii2-app/Dockerfile
+  register: dockerfile_status
+
+# - name: Copy Dockerfile (or assume it's part of repo)
+#   copy:
+#     src: /DevOps-Assessment/app/Dockerfile
+#     dest: /home/ubuntu/yii2-app/Dockerfile
+#   when: not dockerfile_status.stat.exists
+
+
+# - name: Build Docker Image
+#   command: docker build -t yii2-app /home/ubuntu/yii2-app
+#   args:
+#     chdir: /home/ubuntu/yii2-app
+
+# - name: Deploy Yii2 app as Docker Swarm service
+#   shell: |
+#     docker service rm yii2-app || true
+#     docker service create \
+#       --name yii2-app \
+#       --publish 9000:9000 \
+#       --replicas 1 \
+#       --mount type=bind,source=/home/ubuntu/yii2-app,target=/var/www/html \
+#       yii2-app
+
+- name: Remove existing Swarm stack if exists
+  shell: docker stack rm yii2_app
+  ignore_errors: yes
+  register: stack_removal
+
+- name: Wait for stack removal to complete
+  wait_for:
+    timeout: 30
+  when: stack_removal is changed
+
+- name: Deploy Yii2 app as Swarm stack
+  shell: docker stack deploy -c /home/ubuntu/yii2-app/DevOps-Assessment/app/docker-stack.yml yii2_app
+
+

@@ -1,0 +1,45 @@
+- name: Install Docker
+  apt:
+    name: [apt-transport-https, ca-certificates, curl, gnupg, lsb-release]
+    state: present
+
+- name: Add Docker GPG key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: Add Docker repository
+  apt_repository:
+    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable
+    state: present
+
+- name: Install Docker CE and CLI
+  apt:
+    name: [docker-ce, docker-ce-cli, containerd.io]
+    state: present
+    update_cache: yes
+
+- name: Create Docker CLI plugins directory
+  file:
+    path: /usr/local/lib/docker/cli-plugins
+    state: directory
+    mode: '0755'
+    recurse: yes
+
+- name: Install Docker Compose plugin
+  get_url:
+    url: https://github.com/docker/compose/releases/download/v2.20.2/docker-compose-linux-x86_64
+    dest: /usr/local/lib/docker/cli-plugins/docker-compose
+    mode: '0755'
+
+
+- name: Enable Docker service
+  systemd:
+    name: docker
+    enabled: yes
+    state: started
+
+- name: Initialize Docker Swarm
+  shell: docker swarm init
+  ignore_errors: true
+
