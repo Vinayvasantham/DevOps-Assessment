@@ -15,11 +15,11 @@ cd DevOps-Assessment
 ```
 
 2. Set up AWS EC2 instance
-. Launch an Ubuntu EC2 instance.
+ * Launch an Ubuntu EC2 instance.
 
-. Allow ports: 22, 80, and 9000 (or 9001).
+ > Allow ports: 22, 80, and 9000 (or 9001).
 
-. SSH into the instance using your key pair:
+* SSH into the instance using your key pair:
 ```bash
 ssh -i mykeypair.pem ubuntu@<EC2-PUBLIC-IP>
 ```
