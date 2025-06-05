@@ -15,7 +15,7 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 WORKDIR /var/www/html
 
 # Copy app files into container
-COPY . .
+COPY ./DevOps-Assessment/app/ .
 
 # Install PHP dependencies (production mode)
 RUN composer install
