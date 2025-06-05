@@ -6,7 +6,7 @@ on:
       - main
 
 env:
-  IMAGE_NAME: vinayvasantham/yii2-app:latest
+  IMAGE_NAME: vinayvasantham/yii2-app
   CONTAINER_PORT: 9000
 
 jobs:
