@@ -60,7 +60,7 @@ Set these in GitHub → Settings → Secrets and variables → Actions → New r
 
  * DOCKERHUB_PASSWORD: Docker Hub password or token
 
-**Assumptions**
+## Assumptions
  * The Yii2 application code is placed in /app and contains a valid composer.json.
 
  * Ports 80 (for NGINX) and 9001 (PHP-FPM) are available on the EC2 instance.
@@ -69,7 +69,7 @@ Set these in GitHub → Settings → Secrets and variables → Actions → New r
 
  * Dockerfile and docker-compose.yml are present in the root or app/.
 
-**How to Test Deployment**
+## How to Test Deployment
  * Push code changes to main branch:
 ```bash
 git add .
